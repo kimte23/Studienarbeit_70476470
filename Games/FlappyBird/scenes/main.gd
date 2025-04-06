@@ -7,13 +7,13 @@ const SERVER_URL := "ws://localhost:5001"
 
 var game_running := false
 var game_over := false
-const SCROLL_SPEED := 300
+const SCROLL_SPEED := 150
 var score := 0
 var screen_size: Vector2i
 var ground_height: int
 var pipes: Array
 var can_fly := true
-const PIPE_DELAY := 175
+const PIPE_DELAY := 300
 const PIPE_RANGE := 125
 
 func _ready():
@@ -111,6 +111,7 @@ func _process(delta):
 
 func _on_pipe_timer_timeout():
 	generate_pipes()
+	
 	
 func generate_pipes():
 	var pipe = pipe_scene.instantiate()
