@@ -1,0 +1,151 @@
+.base-navbar {
+    height: 70px;
+}
+
+.below-navbar {
+    margin-top: 70px;
+    flex: 1 1 auto;
+    width: 100%;
+    overflow: auto;
+}
+
+.forms-content-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-item-button {
+    width: 32px;
+    height: 32px;
+}
+
+.navbar-button {
+    width: 40px;
+    height: 40px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-heading {
+    width: 90%;
+    max-width: 900px;
+    margin-top: 64px;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.in-button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-content {
+    width: 90%;
+    max-width:900px;
+}
+
+.page-table-content {
+    width: 90%;
+    max-width:1100px;
+}
+
+.weather-content {
+    width: 100%;
+}
+
+.truncate {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.85em;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+.table td .form-text.truncate {
+    max-width: 300px;
+}
+
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 70px);
+}
+
+.centered-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 70px);
+    text-align: center;
+    padding-bottom: 32px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.centered-birthday-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 70px);
+}
+
+.centered-content img,
+.centered-content canvas,
+.centered-content iframe,
+.centered-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    #dateTimeText {
+        display: none;
+    }
+}
+
+.news-card-style {
+    width: 100%;
+    max-width: 900px;
+}
+
+.qr-code {
+    min-width: 128px;
+    min-height: 128px;
+    margin-left: 16px;
+}
+
+#birthdayImage {
+    max-height: 60%;
+}
+
+
+.centered-image-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 70px);
+    text-align: center;
+    padding-bottom: 32px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.centered-image-text-content img {
+    max-width: 100%;
+    max-height: 60%;
+}

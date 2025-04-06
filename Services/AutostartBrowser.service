@@ -1,0 +1,16 @@
+[Unit]
+Description=Autostart Browser Service
+After=graphical.target
+Requires=graphical.target
+
+[Service]
+User=%USER_NAME%
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sleep 10
+ExecStartPre=/usr/bin/xhost +SI:localuser:root
+ExecStart=/usr/bin/firefox --kiosk %SERVER_IP%
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=graphical.target

@@ -1,0 +1,266 @@
+{% extends "Base.html" %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="forms-content-page">
+	<h1 class="page-heading">Inhalte erstellen</h1>
+    <div class="page-content">
+
+        <!-- Select for selecting the content type -->
+        <div class="mb-3">
+            <label for="contentTypeSelect" class="form-label">Contenttyp</label>
+            <select class="form-control mb-3" id="contentTypeSelect" name="contentType">
+                <option value="" hidden selected>Inhalt auswählen</option>
+                <option value="text">Text</option>
+                <option value="image">Bild</option>
+                <option value="imageText">Text und Bild</option>
+                <option value="video">Video</option>
+                <option value="slideshow">Diashow</option>
+                <option value="pdf">PDF</option>
+                <option value="excel">Excel</option>
+                <option value="program">Programm</option>
+                <option value="birthday">Geburtstage</option>
+                <option value="weather">Wetter</option>
+                <option value="news">Nachrichten</option>
+                <option value="game">Spiel</option>
+            </select>
+
+        <form id="textContentForm">
+            <div class="mb-3">
+                <label for="titleText" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleText" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationText" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationText" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="quillTextEditor" class="form-label">Text</label>
+                <div id="quillTextEditor" class="quill-editor"></div>
+            </div>
+        </form>
+
+        <form id="imageContentForm">
+            <div class="mb-3">
+                <label for="titleImage" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleImage" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationImage" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationImage" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileImage" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileImage" accept="image/*" required>
+            </div>
+        </form>
+
+        <form id="imageTextContentForm">
+            <div class="mb-3">
+                <label for="titleImageText" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleImageText" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationImageText" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationImageText" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="quillImageTextEditor" class="form-label">Text</label>
+                <div id="quillImageTextEditor" class="quill-editor"></div>
+            </div>
+            <div class="mb-3">
+                <label for="fileImageText" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileImageText" accept="image/*" required>
+            </div>
+        </form>
+
+        <form id="videoContentForm">
+            <div class="mb-3">
+                <label for="titleVideo" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleVideo" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileVideo" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileVideo" accept="video/*" required>
+            </div>
+        </form>
+
+        <form id="slideshowContentForm">
+            <div class="mb-3">
+                <label for="titleSlideshow" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleSlideshow" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationSlideshow" class="form-label">Anzeigedauer pro Bild (Sekunden)</label>
+                <input type="number" class="form-control" id="durationSlideshow" name="duration_per_image" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileSlideshow" class="form-label">Ordner</label>
+                <input type="file" class="form-control" id="fileSlideshow" accept="image/*" webkitdirectory directory multiple required>
+            </div>
+        </form>
+
+        <form id="pdfContentForm">
+            <div class="mb-3">
+                <label for="titlePdf" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titlePdf" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationPdf" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationPdf" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="filePdf" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="filePdf" accept="application/pdf" required>
+            </div>
+        </form>
+
+        <form id="excelContentForm">
+            <div class="mb-3">
+                <label for="titleExcel" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleExcel" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationExcel" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationExcel" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileExcel" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileExcel" accept=".xls,.xlsx" required>
+            </div>
+        </form>
+
+        <form id="programContentForm">
+            <div class="mb-3">
+                <label for="titleProgram" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleProgram" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationProgram" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationProgram" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Programm</label>
+                <table class="table" id="programDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Zeit</th>
+                            <th>Aktivität</th>
+                            <th>Ort (optional)</th>
+                            <th>Notizen (optional)</th>
+                            <th>Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="time" class="form-control" name="time[]" required></td>
+                            <td><input type="text" class="form-control" name="activity[]" required></td>
+                            <td><input type="text" class="form-control" name="location[]" required></td>
+                            <td><input type="text" class="form-control" name="notes[]" required></td>
+                            <td><button type="button" class="btn btn-danger removeRowButton">Entfernen</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" id="addRowButton">Zeile hinzufügen</button>
+            </div>
+        </form>
+
+        <form id="birthdayContentForm">
+            <div class="mb-3">
+                <label for="titleBirthday" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleBirthday" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationBirthday" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationBirthday" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Geburtstage</label>
+                <table class="table" id="birthdayDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Name</th>
+                            <th>Bild (optional)</th>
+                            <th>Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="date" class="form-control" name="birthday[]" required></td>
+                            <td><input type="text" class="form-control" name="name[]" required></td>
+                            <td><input type="file" class="form-control" name="image[]" accept="image/*"></td>
+                            <td><button type="button" class="btn btn-danger removeRowButton">Entfernen</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" id="addBirthdayRowButton">Zeile hinzufügen</button>
+            </div>
+        </form>
+
+        <form id="weatherContentForm">
+            <div class="mb-3">
+                <label for="titleWeather" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleWeather" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationWeather" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationWeather" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="contentWeather" class="form-label">Ort</label>
+                <input class="form-control" id="contentWeather" name="location" required>
+            </div>
+        </form>
+
+        <form id="newsContentForm">
+            <div class="mb-3">
+                <label for="titleNews" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleNews" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationNews" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationNews" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="contentNews" class="form-label">Thema (z.B. "Deutschland Politik", "Gesunde Ernährung", etc.)</label>
+                <input class="form-control" id="contentNews" name="query" required>
+            </div>
+        </form>
+
+        <form id="gameContentForm">
+            <div class="mb-3">
+                <label for="titleGame" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleGame" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationGame" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationGame" name="duration" required>
+            </div>
+            <div class="mb-3">
+                <label for="folderGame" class="form-label">Build-Ordner</label>
+                <input type="file" class="form-control" id="folderGame" webkitdirectory directory multiple required>
+            </div>
+        </form>
+    </div>
+    <button type="button" class="btn btn-primary mb-5" id="addButton" style="display: none;">Erstellen</button>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="updatedToast" class="toast bg-success text-white" role="alert">
+        <div class="toast-body">
+            Inhalt wurde erfolgreich hinzugefügt.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="{{ url_for('static', filename='Js/AddContent.js') }}"></script>
+{% endblock %}

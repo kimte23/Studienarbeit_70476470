@@ -1,0 +1,281 @@
+{% extends "Base.html" %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="forms-content-page">
+	<h1 class="page-heading">Inhalt bearbeiten</h1>
+    <div class="page-content">
+        <form id="textContentForm">
+            <div class="mb-3">
+                <label for="titleText" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleText" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationText" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationText" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="quillTextEditor" class="form-label">Text</label>
+                <div id="quillTextEditor" class="quill-editor">{{ content.content.text }}</div>
+            </div>
+        </form>
+
+        <form id="imageContentForm">
+            <div class="mb-3">
+                <label for="titleImage" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleImage" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationImage" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationImage" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileImage" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileImage" accept="image/*">
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Datei: {{ content.content.files[0] }}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="imageTextContentForm">
+            <div class="mb-3">
+                <label for="titleImageText" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleImageText" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationImageText" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationImageText" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="quillImageTextEditor" class="form-label">Text</label>
+                <div id="quillImageTextEditor" class="quill-editor">{{ content.content.text }}</div>
+            </div>
+            <div class="mb-3">
+                <label for="fileImageText" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileImageText" accept="image/*">
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Datei: {{ content.content.files[0] }}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="videoContentForm">
+            <div class="mb-3">
+                <label for="titleVideo" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleVideo" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileVideo" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileVideo" accept="video/*">
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Datei: {{ content.content.files[0] }}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="slideshowContentForm">
+            <div class="mb-3">
+                <label for="titleSlideshow" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleSlideshow" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationSlideshow" class="form-label">Anzeigedauer pro Bild (Sekunden)</label>
+                <input type="number" class="form-control" id="durationSlideshow" name="duration_per_image" value="{{ content.content.duration_per_image }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileSlideshow" class="form-label">Ordner</label>
+                <input type="file" class="form-control" id="fileSlideshow" accept="image/*" webkitdirectory directory multiple>
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Dateien:
+                        {% for file in content.content.files %}
+                            <div>{{ file }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="pdfContentForm">
+            <div class="mb-3">
+                <label for="titlePdf" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titlePdf" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationPdf" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationPdf" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="filePdf" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="filePdf" accept="application/pdf">
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Datei: {{ content.content.files[0] }}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="excelContentForm">
+            <div class="mb-3">
+                <label for="titleExcel" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleExcel" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationExcel" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationExcel" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileExcel" class="form-label">Datei</label>
+                <input type="file" class="form-control" id="fileExcel" accept=".xls,.xlsx">
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Datei: {{ content.content.files[0] }}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+
+        <form id="programContentForm">
+            <div class="mb-3">
+                <label for="titleProgram" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleProgram" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationProgram" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationProgram" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Programm</label>
+                <table class="table" id="programDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Zeit</th>
+                            <th>Aktivität</th>
+                            <th>Ort (optional)</th>
+                            <th>Notizen (optional)</th>
+                            <th>Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" id="addRowButton">Zeile hinzufügen</button>
+            </div>
+        </form>
+
+        <form id="birthdayContentForm">
+            <div class="mb-3">
+                <label for="titleBirthday" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleBirthday" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationBirthday" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationBirthday" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Geburtstage</label>
+                <table class="table" id="birthdayDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Name</th>
+                            <th>Bild (optional)</th>
+                            <th>Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" id="addBirthdayRowButton">Zeile hinzufügen</button>
+            </div>
+        </form>
+
+        <form id="weatherContentForm">
+            <div class="mb-3">
+                <label for="titleWeather" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleWeather" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationWeather" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationWeather" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="contentWeather" class="form-label">Ort</label>
+                <input class="form-control" id="contentWeather" name="location" value="{{ content.content.location }}" required>
+            </div>
+        </form>
+
+        <form id="newsContentForm">
+            <div class="mb-3">
+                <label for="titleNews" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleNews" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationNews" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationNews" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="contentNews" class="form-label">Thema (z.B. "Deutschland Politik", "Gesunde Ernährung", etc.)</label>
+                <input class="form-control" id="contentNews" name="query" value="{{ content.content.query }}" required>
+            </div>
+        </form>
+
+        <form id="gameContentForm">
+            <div class="mb-3">
+                <label for="titleGame" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="titleGame" name="title" value="{{ content.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="durationGame" class="form-label">Anzeigedauer (Sekunden)</label>
+                <input type="number" class="form-control" id="durationGame" name="duration" value="{{ content.duration }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="folderGame" class="form-label">Ordner</label>
+                <input type="file" class="form-control" id="folderGame" webkitdirectory directory multiple>
+                <small class="form-text text-muted truncate">
+                    {% if content.content.files %}
+                        Aktuelle Dateien:
+                        {% for file in content.content.files %}
+                            <div>{{ file }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </small>
+            </div>
+        </form>
+        <button type="button" class="btn btn-primary mb-5" id="saveButton">Speichern</button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="updatedToast" class="toast bg-success text-white" role="alert">
+        <div class="toast-body">
+            Inhalt wurde erfolgreich aktualisiert.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const content = {{ content | tojson }};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="{{ url_for('static', filename='Js/EditContent.js') }}"></script>
+{% endblock %}

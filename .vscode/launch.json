@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Debug GestureRecognizer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Modules/GestureRecognition/GestureRecognizer.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--debug", "true"
+            ]
+        },
+        {
+            "name": "Python Debugger: Release GestureRecognizer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Modules/GestureRecognition/GestureRecognizer.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "Python Debugger: Debug FlaskServer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Server/FlaskServer.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--debug", "true"
+            ]
+        },
+        {
+            "name": "Python Debugger: Release FlaskServer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Server/FlaskServer.py",
+            "console": "integratedTerminal",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug GestureRecognizer and FlaskServer",
+            "configurations": [
+                "Python Debugger: Debug GestureRecognizer",
+                "Python Debugger: Debug FlaskServer"
+            ]
+        },
+        {
+            "name": "Release GestureRecognizer and FlaskServer",
+            "configurations": [
+                "Python Debugger: Release GestureRecognizer",
+                "Python Debugger: Release FlaskServer"
+            ]
+        }
+    ]
+}

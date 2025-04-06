@@ -1,0 +1,53 @@
+{% extends "Base.html" %}
+
+{% block content %}
+<div class="forms-content-page">
+    <h1 class="page-heading">Einstellungen</h1>
+    <form class="page-content" id="settingsForm">
+        <div class="mb-3">
+            <input type="checkbox" class="form-check-input" id="showNavbar" name="show_navbar" {% if settings.show_navbar == 'on' %}checked{% endif %}>
+            <label for="showNavbar" class="form-check-label">Navbar mitanzeigen</label>
+        </div>
+        <div class="mb-3">
+            <label for="contentUpdateInterval" class="form-label">Zeitabstand Update-Kontrolle (Sekunden)</label>
+            <input type="number" class="form-control" id="contentUpdateInterval" name="update_interval" value="{{ settings.update_interval }}">
+        </div>
+        <div class="mb-3">
+            <label for="weatherUpdateInterval" class="form-label">Zeitabstand Aktualisierung der Wetterdaten (Minuten)</label>
+            <input type="number" class="form-control" id="weatherUpdateInterval" name="weather_update_interval" value="{{ settings.weather_update_interval }}">
+        </div>
+        <div class="mb-3">
+            <label for="newsUpdateInterval" class="form-label">Zeitabstand Aktualisierung der News-Daten (Minuten)</label>
+            <input type="number" class="form-control" id="newsUpdateInterval" name="news_update_interval" value="{{ settings.news_update_interval }}">
+        </div>
+        <div class="mb-3">
+            <label for="newsCountItems" class="form-label">Anzahl unterschiedlicher Artikel je News-Inhalt</label>
+            <input type="number" class="form-control" id="newsCountItems" name="news_count_items" value="{{ settings.news_count_items }}">
+            <div class="form-text">
+                Die entgülitige Anzahl an Artikeln kann hiervon abweichen, da nicht immer genügend Artikel zum Thema verfügbar sind.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="newsApiKey" class="form-label">News API Schlüssel</label>
+            <input type="password" class="form-control" id="newsApiKey" name="news_api_key" value="{{ settings.news_api_key }}">
+            <div class="form-text">
+                Wird benötigt, damit News abgerufen werden können. <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer">Hier</a> kostenlos erhältlich.
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="saveButton">Speichern</button>
+    </form>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="updatedToast" class="toast bg-success text-white" role="alert">
+        <div class="toast-body">
+            Einstellungen wurden erfolgreich gespeichert.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='Js/Settings.js') }}"></script>
+{% endblock %}

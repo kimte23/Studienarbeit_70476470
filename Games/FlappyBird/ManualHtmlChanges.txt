@@ -1,0 +1,17 @@
+Change this in the exported .html file
+
+body {
+	color: white;
+	background-color: white;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
