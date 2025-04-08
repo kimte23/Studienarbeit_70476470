@@ -11,7 +11,8 @@ settings = {
     'weather_update_interval': 60, # 1 hour
     'news_update_interval': 60 * 2, # 2 hours
     'news_api_key': '',
-    'news_count_items': 5
+    'news_count_items': 5,
+    'navbarColor': '#41826A'
 }
 
 
@@ -40,6 +41,8 @@ def get_setting(key):
 def set_setting(key, value):
     settings[key] = value
     save_settings()
+
+    
 
 
 # Load settings when this module is imported

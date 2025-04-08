@@ -34,6 +34,11 @@
                 Wird benötigt, damit News abgerufen werden können. <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer">Hier</a> kostenlos erhältlich.
             </div>
         </div>
+        <div class="mb-3">
+            <label for="navbarColor" class="form-label">Farbe der Navigationsleiste (Hex)</label>
+            <input type="text" class="form-control" id="navbarColor" name="navbarColor" value="{{ settings.navbarColor }}">
+            <div class="form-text">Gib einen Farbwert wie z. B. <code>#41826A</code> oder <code>#FF0000</code> ein.</div>
+        </div>
         <button type="button" class="btn btn-primary" id="saveButton">Speichern</button>
     </form>
 </div>
