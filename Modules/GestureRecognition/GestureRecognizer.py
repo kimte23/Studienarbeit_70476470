@@ -22,7 +22,7 @@ class GestureRecognizer:
         self.skip_frames = skip_frames + 1
         self.debug = debug
         self.frame_count = 0
-        self.cap = cv2.VideoCapture(0) # Open the default camera
+        self.cap = cv2.VideoCapture(1) # Open the default camera
         self.hands = mp.solutions.hands.Hands(max_num_hands=2) # Initialize the hands module
         self.server = WebsocketServer(host=self.socket_host, port=self.socket_port)
         Thread(target=self.server.run_forever).start() # Start WebSocket server

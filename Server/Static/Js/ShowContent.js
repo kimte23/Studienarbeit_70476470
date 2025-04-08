@@ -35,8 +35,7 @@ let freezeButton = null;
 function toggle_freeze() {
     isFrozen = !isFrozen;
     if (isFrozen) {
-        freezeButton.classList.remove('btn-dark');
-        freezeButton.classList.add('btn-primary');
+        freezeButton.classList.add('active');
         if (currentContent) {
             if (contentTimer) {
                 clearTimeout(contentTimer);
@@ -56,8 +55,7 @@ function toggle_freeze() {
     } else if (currentContent && currentContent.type !== 'VideoContent') {
         startContentTimer();
     }
-    freezeButton.classList.remove('btn-primary');
-    freezeButton.classList.add('btn-dark');
+    freezeButton.classList.remove('active');
 }
 
 
