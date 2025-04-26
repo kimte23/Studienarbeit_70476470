@@ -4,12 +4,11 @@
 // Highlight button on click
 function highlightButton(buttonId) {
     const button = document.getElementById(buttonId);
-    button.classList.remove('btn-dark');
-    button.classList.add('btn-primary');
+    const originalColor = button.style.backgroundColor; // Save the original color
+    button.style.backgroundColor = '#0d6efd'; // Primary color
     setTimeout(() => {
-        button.classList.remove('btn-primary');
-        button.classList.add('btn-dark');
-    }, 800); // Highlight for 500ms
+        button.style.backgroundColor = originalColor; // Reset to original color
+    }, 800); // Highlight for 800ms
 }
 
 function onVideoEnd() {
