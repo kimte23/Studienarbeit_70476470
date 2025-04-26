@@ -147,8 +147,7 @@ get_current_ip() {
 # Function to configure static IP address
 configure_static_ip() {
     # Ask if the user wants to set up a static IP address
-    echo -e "${YELLOW}Completing this task will close your internet connection. If youre using SSH, you will need to reconnect!${WHITE}"
-    read setup_static_ip
+    echo -e "${YELLOW}Completing this task will restart your internet connection. If youre using SSH, you will need to reconnect!${WHITE}"
     if [[ "$setup_static_ip" == "yes" || "$setup_static_ip" == "y" ]]; then
         # Get the current IP address
         echo -e "${YELLOW}Enter the network interface to get the current IP address (e.g., eth0 or wlan0):${WHITE}"
