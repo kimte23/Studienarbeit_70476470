@@ -8,7 +8,7 @@ UPLOADS_FOLDER = 'Server/Static/Uploads'
 
 
 class BaseContent():
-    def __init__(self, id, type, title, duration, content, is_visible):
+    def __init__(self, id, type, title, duration, content, is_visible, start_date=None, end_date=None):
         self.id = id
         self.type = type
         self.title = title
@@ -16,7 +16,9 @@ class BaseContent():
         self.content = content
         self.is_visible = is_visible
         self.should_show = True
-
+        self.start_date = self._parse_datetime(start_date) if start_date else datetime.now()
+        self.end_date = self._parse_datetime(end_date) if end_date else None
+        self.update_should_show()
 
     def get_subclass(type):
         for subclass in BaseContent.__subclasses__():
@@ -24,93 +26,116 @@ class BaseContent():
                 return subclass
         raise ValueError('Content type not found')
 
+    def update_should_show(self):
+        now = datetime.now()
+
+        # Check visibility based on start_date and end_date
+        if (self.start_date and now < self.start_date) or \
+           (self.end_date and now > self.end_date):
+            self.should_show = False
+        else:
+            self.should_show = True
+
+    def needs_update(self):
+        now = datetime.now()
+        if (self.start_date and now >= self.start_date) or \
+           (self.end_date and now >= self.end_date):
+            return True
+        return False
+
     # This method is called when the content is shown
     # Use it for updating the content (e.g. fetching new data)
     def refresh(self):
-        return False # Return false if content is not refreshd
+        self.update_should_show()
+        return False # Return false if content is not refreshed
     
     def update(self):
-        pass
+        self.update_should_show()
+
+    def _parse_datetime(self, date_str):
+        try:
+            return datetime.fromisoformat(date_str)
+        except ValueError:
+            try:
+                return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z')
+            except ValueError:
+                print(f'\033[91mInvalid datetime format: {date_str}\033[0m')
+                return None
 
 
 # content['text'] = 'Hello World!'
 class TextContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
 
 # content['file'] = 'image.png'
 class ImageContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
     
 
 # content['text'] = 'Hello World!'
 # content['file'] = 'image.png'
 class ImageTextContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
 
 # content['file'] = 'video.mp4'
 class VideoContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
         # If a new VideoContent is created, get duration of the video
         clip = VideoFileClip(f'{UPLOADS_FOLDER}/{id}/{content["files"][0]}')
         duration = clip.duration
         clip.close()
-        super().__init__(id, type, title, duration, content, is_visible)
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
     def update(self):
         # Get duration of the video
         clip = VideoFileClip(f'{UPLOADS_FOLDER}/{self.id}/{self.content["files"][0]}')
         self.duration = clip.duration
         clip.close()
+        self.update_should_show()
 
 
 # content['duration_per_image'] = 0
 class SlideshowContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
         duration = int(content['duration_per_image']) * len(content['files'])
-        super().__init__(id, type, title, duration, content, is_visible)
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
     def update(self):
         self.duration = int(self.content['duration_per_image']) * len(self.content['files'])
+        self.update_should_show()
 
 
 # content['file'] = 'document.pdf'
 class PdfContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
     
 
 # content['file'] = 'document.xlsx'
 class ExcelContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
     
 
 # content['items'] = [{'text': 'Hello World!', 'date': '2000-01-01'}, ...]
 class ProgramContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
         self.update_should_show()
 
     def update(self):
         self.update_should_show()
 
-    def update_should_show(self):
-        programTable = self.content.get('programTable', {})
-        if not programTable.get('activity'):
-            self.should_show = False
-        else:
-            self.should_show = True
-
 
 # content['people'] = [{'name': 'John Doe', 'birthday': '2000-01-01', 'image': 'image.png'}, ...]
 class BirthdayContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
         self.birthday_indices = []
         self.setup_birthdays()
         self.update_should_show()
@@ -126,6 +151,7 @@ class BirthdayContent(BaseContent):
             self.update_should_show()
             return True
 
+        self.update_should_show()
         return False
 
 
@@ -150,6 +176,7 @@ class BirthdayContent(BaseContent):
             self.should_show = False
         else:
             self.should_show = True
+        super().update_should_show()
         
 
 # content['location'] = Berlin
@@ -158,8 +185,8 @@ class BirthdayContent(BaseContent):
 # content['last_refresh'] = '2000-01-01T00:00:00'
 # content['weather'] = {'daily_weather_code': 0, 'temperature_2m_max': 0, ...}
 class WeatherContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
         # Fetch coordinates if not provided
         if content.get('latitude') is None or content.get('longitude') is None:
@@ -176,13 +203,16 @@ class WeatherContent(BaseContent):
         now = datetime.now()
         if now > datetime.fromisoformat(self.content['last_refresh']) + timedelta(minutes=(int(get_setting('weather_update_interval')))):
             self.fetch_weather()
+            self.update_should_show()
             return True
+        self.update_should_show()
         return False
 
 
     def update(self):
         self.fetch_coordinates()
         self.fetch_weather()
+        self.update_should_show()
 
 
     def fetch_coordinates(self):
@@ -226,8 +256,8 @@ class WeatherContent(BaseContent):
 # content['last_refresh'] = '2000-01-01T00:00:00'
 # content = ['articles'] = [{'title': 'Hello World!', 'description': 'This is a description.', 'url': 'https://example.com', 'urlToImage': 'image.png'}, ...]
 class NewsContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
-        super().__init__(id, type, title, duration, content, is_visible)
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
         self.fetch_news()
     
 
@@ -239,13 +269,16 @@ class NewsContent(BaseContent):
         now = datetime.now()
         if now > datetime.fromisoformat(self.content['last_refresh']) + timedelta(minutes=(int(get_setting('weather_update_interval')))):
             self.fetch_news()
+            self.update_should_show()
             return True
         
+        self.update_should_show()
         return False
 
 
     def update(self):
         self.fetch_news()
+        self.update_should_show()
 
     
     def fetch_news(self):
@@ -270,7 +303,7 @@ class NewsContent(BaseContent):
 
 # content['html'] = 'FlappyBird.html'
 class GameContent(BaseContent):
-    def __init__(self, id, type, title, duration, content, is_visible=True, **kwargs):
+    def __init__(self, id, type, title, duration, content, is_visible=True, start_date=None, end_date=None, **kwargs):
         # Find the html in the folder if not provided
         if content.get('html') is None:
             for file in content['files']:
@@ -278,7 +311,7 @@ class GameContent(BaseContent):
                     content['html'] = file
                     break
 
-        super().__init__(id, type, title, duration, content, is_visible)
+        super().__init__(id, type, title, duration, content, is_visible, start_date, end_date)
 
     def update(self):
         # Find the html in the folder if not provided
@@ -287,3 +320,4 @@ class GameContent(BaseContent):
                 if file.endswith('.html'):
                     self.content['html'] = file
                     break
+        self.update_should_show()

@@ -147,7 +147,7 @@ get_current_ip() {
 # Function to configure static IP address
 configure_static_ip() {
     # Ask if the user wants to set up a static IP address
-    echo -e "${YELLOW}Do you want to set up a static IP address? (yes/no)${WHITE}"
+    echo -e "${YELLOW}Completing this task will close your internet connection. If youre using SSH, you will need to reconnect!${WHITE}"
     read setup_static_ip
     if [[ "$setup_static_ip" == "yes" || "$setup_static_ip" == "y" ]]; then
         # Get the current IP address
@@ -157,9 +157,9 @@ configure_static_ip() {
         echo -e "${GREEN}Current IP address of ${network_interface}: ${current_ip}${WHITE}"
 
         # Prompt user for static IP configuration
-        echo -e "${YELLOW}Enter the static IP address you want to set (e.g., 192.168.1.100/24):${WHITE}"
+        echo -e "${YELLOW}Enter the static IP address you want to set (e.g., 192.168.X.Y/24 where X is the network address and Y is the address the device should use from now on):${WHITE}"
         read static_ip
-        echo -e "${YELLOW}Enter the gateway IP address (e.g., 192.168.1.1):${WHITE}"
+        echo -e "${YELLOW}Enter the gateway IP address (e.g., 192.168.X.Y where X is the network address and Y is the routers address (usually '1')):${WHITE}"
         read gateway_ip
         
         set_static_ip $static_ip $gateway_ip $network_interface
@@ -183,7 +183,6 @@ set_display_variable() {
 #                         Installation implementations                         #
 # ---------------------------------------------------------------------------- #
 install_server() {
-    configure_static_ip
     install_requirements $REQUIREMENTS_SERVER_REQUIREMENTS
     install_service $SERVICE_AUTOSTART_SERVER "%INSTALL_DIR%=$INSTALL_DIR"
 }
@@ -195,7 +194,7 @@ install_gesture_recognition() {
 
 install_autostart_browser() {
     # Prompt user for the server's IP address
-    echo -e "${YELLOW}Enter the server's IP address the browser should connect to (use "localhost" if the server is running on this device):${WHITE}"
+    echo -e "${YELLOW}Enter the server's IP address the browser should connect to (use "localhost" if the server is running on this device!):${WHITE}"
     read server_ip
     
     # Set the DISPLAY variable permanently
@@ -209,6 +208,12 @@ install_autostart_browser() {
 # ---------------------------------------------------------------------------- #
 #                        Prompting user for installation                       #
 # ---------------------------------------------------------------------------- #
+echo -e "${YELLOW}Do you want to setup a static IP? (yes/no)${WHITE}"
+read setup_static_ip
+if [[ "$setup_static_ip" == "yes" || "$setup_static_ip" == "y" ]]; then
+    configure_static_ip
+fi
+
 echo
 echo -e "${YELLOW}Do you want to install the Server? (yes/no)${WHITE}"
 read install_server
@@ -217,7 +222,7 @@ if [[ "$install_server" == "yes" || "$install_server" == "y" ]]; then
 fi
 
 echo
-echo -e "${YELLOW}Do you want to install gesture recognition? This only works if a camera is connected to the device! (yes/no)${WHITE}"
+echo -e "${YELLOW}Do you want to install gesture recognition? This will only work if a camera is connected to the device! (yes/no)${WHITE}"
 read install_gesture
 if [[ "$install_gesture" == "yes" || "$install_gesture" == "y" ]]; then
     install_gesture_recognition
@@ -229,3 +234,8 @@ read install_services
 if [[ "$install_services" == "yes" || "$install_services" == "y" ]]; then
     install_autostart_browser
 fi
+
+echo
+echo -e "${YELLOW}If you want to do any changes, rerun the Install.sh script. Changes will be overwritten.${WHITE}"
+echo -e "${YELLOW}If you change the network or want to change the static IP address you have to make a clean reinstall. Execute Uninstall.sh first, then run Install.sh${WHITE}"
+echo -e "${YELLOW}If you want to uninstall the project from your system run the Uninstall.sh script.${WHITE}"

@@ -16,13 +16,29 @@ from threading import Thread
 
 
 class GestureRecognizer:
-    def __init__(self, socket_host, socket_port, skip_frames, debug):
+    def __init__(self, socket_host, socket_port, skip_frames, debug, camera_index):
         self.socket_host = socket_host
         self.socket_port = socket_port
         self.skip_frames = skip_frames + 1
         self.debug = debug
         self.frame_count = 0
-        self.cap = cv2.VideoCapture(1) # Open the default camera
+
+        if camera_index == -1:  # Special value to auto-detect camera
+            self.cap = None
+            for index in range(10):  # Try indices 0 to 9
+                temp_cap = cv2.VideoCapture(index)
+                if temp_cap.isOpened():
+                    self.cap = temp_cap
+                    print(f"Using camera at index {index}")
+                    break
+                temp_cap.release()
+            if not self.cap:
+                raise ValueError("No valid camera found in indices 0 to 9")
+        else:
+            self.cap = cv2.VideoCapture(camera_index)  # Open the specified camera
+            if not self.cap.isOpened():
+                raise ValueError(f"Could not open camera with index {camera_index}")
+
         self.hands = mp.solutions.hands.Hands(max_num_hands=2) # Initialize the hands module
         self.server = WebsocketServer(host=self.socket_host, port=self.socket_port)
         Thread(target=self.server.run_forever).start() # Start WebSocket server
@@ -88,12 +104,14 @@ class GestureRecognizer:
 if __name__ == "__main__":
     # Parse command line arguments
     parser = argparse.ArgumentParser()
+    parser.add_argument("--camera-index", type=int, default=-1, help="Camera index to use. Use -1 to auto-detect.")
     parser.add_argument("--skip-frames", type=int, default=0, help="Number of frames to skip. This will result in better performance but higher latency.")
     parser.add_argument("--debug", type=bool, default=False, help="Enable debug mode.")
     args = parser.parse_args()
 
+    camera_index = args.camera_index
     skip_frames = args.skip_frames
     debug = args.debug
 
-    recognizer = GestureRecognizer('localhost', 5001, skip_frames, debug)
+    recognizer = GestureRecognizer('localhost', 5001, skip_frames, debug, camera_index)
     recognizer.run()

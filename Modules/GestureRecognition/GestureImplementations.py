@@ -8,7 +8,6 @@ import time
 # To add a new gesture or motion, add a new gesture name and implement the gesture / motion function.
 # Then add the gesture / motion function to the functions list at the bottom of the file 
 # so it will be checked for recognition every frame by the gesture recognizer.
-# TODO: Making thresholds dynamic based on hand size (include z-coordinate)
 
 
 # ---------------------------------------------------------------------------- #
@@ -56,15 +55,20 @@ def are_fingers_extended(hand_landmarks, extended_threshold=0.1):
     return finger_extended
 
 
-def is_thumb_and_index_touching(hand_landmarks, distance_threshold=0.04):
+def is_thumb_and_index_touching(hand_landmarks, base_threshold_ratio=0.2):
     thumb_tip = hand_landmarks.landmark[HandLandmark.THUMB_TIP]
     index_tip = hand_landmarks.landmark[HandLandmark.INDEX_FINGER_TIP]
+    wrist = hand_landmarks.landmark[HandLandmark.WRIST]
+    index_mcp = hand_landmarks.landmark[HandLandmark.INDEX_FINGER_MCP]
+
+    # Calculate hand size as the distance between the wrist and index MCP
+    hand_size = calculate_distance(wrist, index_mcp)
+
+    # Dynamic threshold is a fraction of the hand size
+    dynamic_threshold = base_threshold_ratio * hand_size
 
     # Check if the thumb tip and index tip are close to each other
-    if calculate_distance(thumb_tip, index_tip) < distance_threshold:
-        return True
-    
-    return False
+    return calculate_distance(thumb_tip, index_tip) < dynamic_threshold
 
 
 def get_hand_side(handedness):
@@ -76,12 +80,18 @@ def get_hand_side(handedness):
         return 'left'
 
 
+def is_hand_raised(hand_landmarks):
+    wrist = hand_landmarks.landmark[HandLandmark.WRIST]
+    middle_mcp = hand_landmarks.landmark[HandLandmark.MIDDLE_FINGER_MCP]
+    return wrist.y > middle_mcp.y  # Wrist should be below the middle MCP for the hand to be raised
+
+
 # ---------------------------------------------------------------------------- #
 #                             Single frame gestures                            #
 # ---------------------------------------------------------------------------- #
 def gesture_ok(multi_hand_landmarks, *args):
     for hand_landmarks in multi_hand_landmarks:
-        if is_thumb_and_index_touching(hand_landmarks):
+        if is_hand_raised(hand_landmarks) and is_thumb_and_index_touching(hand_landmarks):
             return GestureResult(True, 'ok')
         
     return GestureResult()
@@ -144,7 +154,10 @@ def gesture_toggle_freeze(multi_hand_landmarks, *args):
     # If hands are detected, reset dropout count
     state.dropout_count = 0
 
-    both_hands_open = all([are_fingers_extended(hand_landmarks) for hand_landmarks in multi_hand_landmarks])
+    both_hands_open = all([
+        is_hand_raised(hand_landmarks) and are_fingers_extended(hand_landmarks)
+        for hand_landmarks in multi_hand_landmarks
+    ])
 
     if both_hands_open:
         # Start timing if not already active
@@ -180,9 +193,9 @@ def gesture_switch_content(multi_hand_landmarks, multi_handedness):
     for i in range(len(multi_hand_landmarks)):
         hand_landmark = multi_hand_landmarks[i]
         hand_side = get_hand_side(multi_handedness[i])
-        if hand_side == 'left':
+        if hand_side == 'left' and is_hand_raised(hand_landmark):
             left_hand_open = are_fingers_extended(hand_landmark)
-        elif hand_side == 'right':
+        elif hand_side == 'right' and is_hand_raised(hand_landmark):
             right_hand_open = are_fingers_extended(hand_landmark)
 
     # Reset if both hands are open

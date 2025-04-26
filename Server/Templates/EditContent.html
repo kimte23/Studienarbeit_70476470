@@ -22,6 +22,14 @@
                 <label for="quillTextEditor" class="form-label">Text</label>
                 <div id="quillTextEditor" class="quill-editor">{{ content.content.text }}</div>
             </div>
+            <div class="mb-3">
+                <label for="startDateText" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateText" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateText" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateText" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="imageContentForm">
@@ -41,6 +49,14 @@
                         Aktuelle Datei: {{ content.content.files[0] }}
                     {% endif %}
                 </small>
+            </div>
+            <div class="mb-3">
+                <label for="startDateImage" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateImage" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateImage" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateImage" name="end_date" value="{{ content.end_date }}">
             </div>
         </form>
 
@@ -66,6 +82,14 @@
                     {% endif %}
                 </small>
             </div>
+            <div class="mb-3">
+                <label for="startDateImageText" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateImageText" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateImageText" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateImageText" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="videoContentForm">
@@ -81,6 +105,14 @@
                         Aktuelle Datei: {{ content.content.files[0] }}
                     {% endif %}
                 </small>
+            </div>
+            <div class="mb-3">
+                <label for="startDateVideo" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateVideo" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateVideo" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateVideo" name="end_date" value="{{ content.end_date }}">
             </div>
         </form>
 
@@ -105,6 +137,14 @@
                     {% endif %}
                 </small>
             </div>
+            <div class="mb-3">
+                <label for="startDateSlideshow" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateSlideshow" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateSlideshow" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateSlideshow" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="pdfContentForm">
@@ -125,6 +165,14 @@
                     {% endif %}
                 </small>
             </div>
+            <div class="mb-3">
+                <label for="startDatePdf" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDatePdf" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDatePdf" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDatePdf" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="excelContentForm">
@@ -144,6 +192,14 @@
                         Aktuelle Datei: {{ content.content.files[0] }}
                     {% endif %}
                 </small>
+            </div>
+            <div class="mb-3">
+                <label for="startDateExcel" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateExcel" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateExcel" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateExcel" name="end_date" value="{{ content.end_date }}">
             </div>
         </form>
 
@@ -175,6 +231,14 @@
                 </table>
                 <button type="button" class="btn btn-secondary" id="addRowButton">Zeile hinzufügen</button>
             </div>
+            <div class="mb-3">
+                <label for="startDateProgram" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateProgram" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateProgram" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateProgram" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="birthdayContentForm">
@@ -204,6 +268,14 @@
                 </table>
                 <button type="button" class="btn btn-secondary" id="addBirthdayRowButton">Zeile hinzufügen</button>
             </div>
+            <div class="mb-3">
+                <label for="startDateBirthday" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateBirthday" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateBirthday" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateBirthday" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="weatherContentForm">
@@ -219,6 +291,14 @@
                 <label for="contentWeather" class="form-label">Ort</label>
                 <input class="form-control" id="contentWeather" name="location" value="{{ content.content.location }}" required>
             </div>
+            <div class="mb-3">
+                <label for="startDateWeather" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateWeather" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateWeather" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateWeather" name="end_date" value="{{ content.end_date }}">
+            </div>
         </form>
 
         <form id="newsContentForm">
@@ -233,6 +313,14 @@
             <div class="mb-3">
                 <label for="contentNews" class="form-label">Thema (z.B. "Deutschland Politik", "Gesunde Ernährung", etc.)</label>
                 <input class="form-control" id="contentNews" name="query" value="{{ content.content.query }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="startDateNews" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateNews" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateNews" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateNews" name="end_date" value="{{ content.end_date }}">
             </div>
         </form>
 
@@ -256,6 +344,14 @@
                         {% endfor %}
                     {% endif %}
                 </small>
+            </div>
+            <div class="mb-3">
+                <label for="startDateGame" class="form-label">Startdatum (leer lassen für direktes Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="startDateGame" name="start_date" value="{{ content.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="endDateGame" class="form-label">Enddatum (leer lassen für endloses Anzeigen)</label>
+                <input type="datetime-local" class="form-control" id="endDateGame" name="end_date" value="{{ content.end_date }}">
             </div>
         </form>
         <button type="button" class="btn btn-primary mb-5" id="saveButton">Speichern</button>

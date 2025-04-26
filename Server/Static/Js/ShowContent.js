@@ -35,7 +35,9 @@ let freezeButton = null;
 function toggle_freeze() {
     isFrozen = !isFrozen;
     if (isFrozen) {
-        freezeButton.classList.add('active');
+        freezeButton.classList.remove('btn-dark');
+        freezeButton.classList.add('btn-danger');
+        freezeButton.style.backgroundColor = 'red'; // Explicitly set red color
         if (currentContent) {
             if (contentTimer) {
                 clearTimeout(contentTimer);
@@ -55,7 +57,9 @@ function toggle_freeze() {
     } else if (currentContent && currentContent.type !== 'VideoContent') {
         startContentTimer();
     }
-    freezeButton.classList.remove('active');
+    freezeButton.classList.remove('btn-danger');
+    freezeButton.classList.add('btn-dark');
+    freezeButton.style.backgroundColor = ''; // Reset to default
 }
 
 
@@ -661,10 +665,21 @@ function connectSocketIo() {
         const isContentEmpty = newContent.length === 0;
         content = newContent;
 
-        // If content was empty and but now is not empty, start rendering
+        // If content was empty and now is not empty, start rendering
         if (wasContentEmpty && !isContentEmpty) {
             currentContentIndex = 0;
             renderContent();
+        }
+
+        // If the updated content is empty, clear the currently shown content
+        if (isContentEmpty) {
+            if (currentlyVisibleContentContainer) {
+                currentlyVisibleContentContainer.style.display = 'none';
+                currentlyVisibleContentContainer.classList.add('d-none');
+                currentlyVisibleContentContainer = null;
+            }
+            currentContent = null;
+            console.log("Cleared currently shown content as the updated content is empty.");
         }
     });
     

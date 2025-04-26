@@ -34,7 +34,9 @@ def render_show_content():
         'ShowContent.html', 
         content=content, 
         socketIoUrl=f'http://{private_ip}:5000', 
-        showNavbar=get_setting('show_navbar'))
+        showNavbar=get_setting('show_navbar'),
+        settings=settings  # Pass settings to the template
+    )
 
 
 @app.route('/get_file/<path:filename>')
@@ -47,8 +49,7 @@ def serve_file(filename):
 # ---------------------------------------------------------------------------- #
 @app.route('/add_content')
 def render_add_content():
-    return render_template('AddContent.html')
-
+    return render_template('AddContent.html', settings=settings)  # Pass settings to the template
 
 @app.route('/add_content', methods=['POST'])
 def add_content(): 
@@ -58,7 +59,9 @@ def add_content():
         'id': request.form.get('id', ''),
         'title': request.form.get('title', ''),
         'duration': int(request.form.get('duration', 0)),
-        'content': {key: value for key, value in request.form.items() if key not in ['id', 'title', 'duration', 'type']},
+        'start_date': request.form.get('start_date', None),  # Add start_date
+        'end_date': request.form.get('end_date', None),      # Add end_date
+        'content': {key: value for key, value in request.form.items() if key not in ['id', 'title', 'duration', 'type', 'start_date', 'end_date']},
     }
 
     # Handle file uploads
@@ -91,14 +94,13 @@ def add_content():
 @app.route('/manage_content')
 def render_manage_content():
     content = content_manager.get_content_list_as_dict()
-    return render_template('ManageContent.html', content=content)
-
+    return render_template('ManageContent.html', content=content, settings=settings)
 
 @app.route('/edit_content')
 def edit_content():
     id = request.args.get('id')
     content = content_manager.get_content_as_dict_by_id(id)
-    return render_template('EditContent.html', content=content)
+    return render_template('EditContent.html', content=content, settings=settings)
 
 
 @app.route('/update_content', methods=['POST'])
@@ -108,7 +110,9 @@ def update_content():
         'id': request.form['id'],
         'title': request.form['title'],
         'duration': int(request.form.get('duration', 0)),
-        'content': {key: value for key, value in request.form.items() if key not in ['id', 'title', 'duration']},
+        'start_date': request.form.get('start_date', None),  # Add start_date
+        'end_date': request.form.get('end_date', None),      # Add end_date
+        'content': {key: value for key, value in request.form.items() if key not in ['id', 'title', 'duration', 'start_date', 'end_date']},
     }
 
     # Get existing files

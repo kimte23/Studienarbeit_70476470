@@ -1,5 +1,7 @@
 import os
 import time
+import threading
+from datetime import datetime
 from flask import json
 from ContentTypes import BaseContent
 from Settings import get_setting
@@ -15,7 +17,29 @@ class ContentManager():
         self.send_should_show_content_to_clients = send_should_show_content_to_clients
         self.load_content()
         self.save_content() # Some content gets updated on initialization, so save it again immediately
-    
+        self.start_periodic_update()
+
+    def start_periodic_update(self):
+        def update_task():
+            # Align with the start of the next minute
+            now = datetime.now()
+            seconds_until_next_minute = 60 - now.second
+            time.sleep(seconds_until_next_minute)
+
+            while True:
+                something_changed = False
+                for content in self.content_list:
+                    if content.needs_update():
+                        content.update()
+                        something_changed = True
+                    
+                if something_changed:
+                    self.save_content()  # Save content if at least one was updated
+                    self.send_should_show_content_to_clients()
+                                   
+                time.sleep(60)  # Check every 60 seconds
+
+        threading.Thread(target=update_task, daemon=True).start()
 
     def load_content(self):
         # Create empty content file if it doesn't exist
@@ -63,7 +87,12 @@ class ContentManager():
         content_dict_list = []
         for content in self.content_list:
             if content.should_show:
-                content_dict_list.append(content.__dict__)
+                content_dict = content.__dict__.copy()
+                # Convert datetime objects to ISO 8601 strings
+                for key, value in content_dict.items():
+                    if isinstance(value, datetime):
+                        content_dict[key] = value.isoformat()
+                content_dict_list.append(content_dict)
         return content_dict_list
 
 
@@ -84,9 +113,22 @@ class ContentManager():
             for filename in self.get_files(id):
                 if filename not in content_data['content']['files']:
                     self.delete_file(id, filename)
-    
-        content.__dict__.update(content_data)
-        content.update() # Update content if necessary (like fetching weather for other location)
+        
+        # Update fields while ensuring proper parsing of datetime fields
+        content.title = content_data.get('title', content.title)
+        content.duration = content_data.get('duration', content.duration)
+        
+        # Only update start_date and end_date if explicitly provided
+        if 'start_date' in content_data and content_data['start_date'] is not None:
+            content.start_date = content._parse_datetime(content_data['start_date'])
+        if 'end_date' in content_data and content_data['end_date'] is not None:
+            content.end_date = content._parse_datetime(content_data['end_date'])
+        
+        content.content = content_data.get('content', content.content)
+        content.is_visible = content_data.get('is_visible', content.is_visible)
+
+        # Update content state
+        content.update()
         self.save_content()
 
 

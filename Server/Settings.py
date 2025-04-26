@@ -12,7 +12,8 @@ settings = {
     'news_update_interval': 60 * 2, # 2 hours
     'news_api_key': '',
     'news_count_items': 5,
-    'navbarColor': '#41826A'
+    'navbarColor': '#212529',
+    'backgroundColor': '#000000',
 }
 
 

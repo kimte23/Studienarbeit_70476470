@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Default Title{% endblock %}</title>
+    <title>{% block title %}Infodisplay{% endblock %}</title>
 
 
 <!-- ----------------------------------------------------------------------- -->
@@ -15,7 +15,7 @@
 
 
 </head>
-<body>
+<body data-navbar-color="{{ settings.navbarColor }}" data-background-color="{{ settings.backgroundColor }}">
 
 
 <!-- ----------------------------------------------------------------------- -->
@@ -24,7 +24,7 @@
     <header>
         <nav class="navbar navbar-dark bg-dark fixed-top base-navbar">
             <div class="container-fluid d-flex justify-content-center align-items-center position-relative">
-                <span id="dateTimeText" class="navbar-brand mx-auto text-center fs-4">DateTime</span>
+                <span id="dateTimeText" class="navbar-brand mx-auto text-center fs-4"></span>
                 <div class="position-absolute end-0 me-3">
                     {% block additionalButtons %} {% endblock %}
                     <button class="navbar-toggler ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar">

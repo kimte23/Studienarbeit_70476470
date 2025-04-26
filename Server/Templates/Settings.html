@@ -35,9 +35,18 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="navbarColor" class="form-label">Farbe der Navigationsleiste (Hex)</label>
-            <input type="text" class="form-control" id="navbarColor" name="navbarColor" value="{{ settings.navbarColor }}">
-            <div class="form-text">Gib einen Farbwert wie z. B. <code>#41826A</code> oder <code>#FF0000</code> ein.</div>
+            <label for="navbarColor" class="form-label">Navigationsleistenfarbe</label>
+            <div class="d-flex">
+                <input type="color" class="form-control form-control-color w-100 me-2" id="navbarColor" name="navbarColor" value="{{ settings.navbarColor }}">
+                <button type="button" class="btn btn-secondary" id="resetNavbarColor">Zurücksetzen</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="backgroundColor" class="form-label">Hintergrundfarbe</label>
+            <div class="d-flex">
+                <input type="color" class="form-control form-control-color w-100 me-2" id="backgroundColor" name="backgroundColor" value="{{ settings.backgroundColor }}">
+                <button type="button" class="btn btn-secondary" id="resetBackgroundColor">Zurücksetzen</button>
+            </div>
         </div>
         <button type="button" class="btn btn-primary" id="saveButton">Speichern</button>
     </form>

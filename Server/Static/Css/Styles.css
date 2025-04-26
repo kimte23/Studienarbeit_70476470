@@ -28,6 +28,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: inherit; /* Matches navbar color */
+    border: 1px solid inherit; /* Matches navbar color */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.navbar-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Highlight on hover */
+}
+
+.navbar-button:active {
+    background-color: rgba(255, 255, 255, 0.4); /* Highlight on click */
 }
 
 .page-heading {
@@ -39,9 +50,20 @@
 }
 
 .in-button-icon {
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translate(0px, -0.9px);
+}
+
+#toggleFreezeButton .in-button-icon {
+    font-size: 1.7rem; /* Adjust the size as needed */
+    transform: translate(-0.5px, -0px); /* Slightly move to the top right */
+}
+
+#toggleFreezeButton {
+    border: none; /* Remove border from freeze button */
 }
 
 .page-content {
@@ -149,34 +171,4 @@
     max-width: 100%;
     max-height: 60%;
 }
-
-.stop-sign-button {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    color: #d32f2f;
-    font-weight: bold;
-    font-size: 8px;
-    text-transform: uppercase;
-    border: none;
-    clip-path: polygon(
-        30% 0%, 70% 0%,
-        100% 30%, 100% 70%,
-        70% 100%, 30% 100%,
-        0% 70%, 0% 30%
-    );
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    transition: all 0.2s ease;
-}
-
-/* Aktivzustand (Freeze-Modus): Rot mit weißem Text */
-.stop-sign-button.active {
-    background: #d32f2f;
-    color: white;
-    border: 2px solid transparent;
-}
+snow

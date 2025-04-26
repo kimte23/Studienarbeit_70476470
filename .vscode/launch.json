@@ -50,6 +50,13 @@
                 "Python Debugger: Release GestureRecognizer",
                 "Python Debugger: Release FlaskServer"
             ]
+        },
+        {
+            "name": "Debug GestureRecognizer and Release FlaskServer",
+            "configurations": [
+                "Python Debugger: Debug GestureRecognizer",
+                "Python Debugger: Release FlaskServer"
+            ]
         }
     ]
 }
