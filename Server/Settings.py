@@ -13,7 +13,7 @@ settings = {
     'news_api_key': '',
     'news_count_items': 5,
     'navbarColor': '#212529',
-    'backgroundColor': '#000000',
+    'backgroundColor': '#FFFFFF',
 }
 
 

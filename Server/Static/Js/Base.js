@@ -1,7 +1,13 @@
 function setDateTime() {
   const daysOfWeek = [
-    'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag',
-    'Sonntag'
+    'Sonntag',
+    'Montag',
+    'Dienstag',
+    'Mittwoch',
+    'Donnerstag',
+    'Freitag',
+    'Samstag',
+
   ];
   const months = [
     'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August',

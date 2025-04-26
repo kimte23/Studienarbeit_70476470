@@ -15,7 +15,7 @@ Jinja2==3.1.6
 MarkupSafe==3.0.2
 moviepy==2.1.2
 numpy==2.2.5
-pillow==10.4.0
+pillow==9.2.0
 proglog==0.1.11
 python-dotenv==1.1.0
 python-engineio==4.12.0
