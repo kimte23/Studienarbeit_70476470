@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const GRAVITY : int = 500
+const GRAVITY : int = 600
 const MAX_VEL : int = 100
 const FLAP_SPEED : int = -400
 var flying : bool = false
