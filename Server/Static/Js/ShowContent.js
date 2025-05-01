@@ -31,6 +31,7 @@ function pauseVideoIfCurrentlyDisplayed() {
 // Toggle freeze
 let isFrozen = false;
 let freezeButton = null;
+
 function toggle_freeze() {
     isFrozen = !isFrozen;
     if (isFrozen) {
@@ -707,13 +708,17 @@ function connectWebSocket() {
     // Handle messages from the server
     socket.addEventListener('message', (event) => {
         if (event.data === 'switch_content_previous') {
+            if (currentContent && currentContent.type !== 'GameContent') {
             highlightButton('previousContentButton');
             pauseVideoIfCurrentlyDisplayed();
             showPreviousContent();
+            }
         } else if (event.data === 'switch_content_next') {
+            if (currentContent && currentContent.type !== 'GameContent') {
             highlightButton('nextContentButton');
             pauseVideoIfCurrentlyDisplayed();
             showNextContent();
+            }
         } else if (event.data === 'toggle_freeze'){
             toggle_freeze();
         } else if (event.data === 'ok' && currentContent && currentContent.type === 'GameContent') {
