@@ -7,14 +7,14 @@ const SERVER_URL := "ws://localhost:5001"
 
 var game_running := false
 var game_over := false
-const SCROLL_SPEED := 150
+const SCROLL_SPEED := 200
 var score := 0
 var screen_size: Vector2i
 var ground_height: int
 var pipes: Array
 var can_fly := true
-const PIPE_DELAY := 300
-const PIPE_RANGE := 125
+const PIPE_DELAY := 100
+const PIPE_RANGE := 10
 
 func _ready():
 	client.connect_to_url(SERVER_URL)
