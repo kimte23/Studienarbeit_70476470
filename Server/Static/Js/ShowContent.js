@@ -31,6 +31,9 @@ function pauseVideoIfCurrentlyDisplayed() {
 // Toggle freeze
 let isFrozen = false;
 let freezeButton = null;
+let autoUnfreezeTimer = null;
+const autoUnfreezeTimeout = 10 * 60 * 1000; // 10 Minuten in ms
+
 
 function toggle_freeze() {
     isFrozen = !isFrozen;
@@ -38,6 +41,20 @@ function toggle_freeze() {
         freezeButton.classList.remove('btn-dark');
         freezeButton.classList.add('btn-danger');
         freezeButton.style.backgroundColor = 'red'; // Explicitly set red color
+
+        // start Auto-Unfreeze-Timer 
+        if (autoUnfreezeTimer) clearTimeout(autoUnfreezeTimer);
+        autoUnfreezeTimer = setTimeout(() => {
+            console.log("Auto-Unfreeze nach 10 Minuten.");
+            isFrozen = false;
+            freezeButton.classList.remove('btn-danger');
+            freezeButton.classList.add('btn-dark');
+            freezeButton.style.backgroundColor = '';
+            if (currentContent && currentContent.type !== 'VideoContent') {
+                startContentTimer();
+            }
+        }, autoUnfreezeTimeout);
+
         if (currentContent) {
             if (contentTimer) {
                 clearTimeout(contentTimer);
@@ -57,6 +74,10 @@ function toggle_freeze() {
     } else if (currentContent && currentContent.type !== 'VideoContent') {
         startContentTimer();
     }
+
+    // Cancel timer when unfreezing manually
+    if (autoUnfreezeTimer) clearTimeout(autoUnfreezeTimer);
+
     freezeButton.classList.remove('btn-danger');
     freezeButton.classList.add('btn-dark');
     freezeButton.style.backgroundColor = ''; // Reset to default
