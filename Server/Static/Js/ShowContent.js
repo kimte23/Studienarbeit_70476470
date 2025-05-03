@@ -32,7 +32,7 @@ function pauseVideoIfCurrentlyDisplayed() {
 let isFrozen = false;
 let freezeButton = null;
 let autoUnfreezeTimer = null;
-const autoUnfreezeTimeout = 10 * 60 * 1000; // 10 Minuten in ms
+const autoUnfreezeTimeout = 10 * 60 * 1000; // 10 Min timer for stop-gesture
 
 
 function toggle_freeze() {
