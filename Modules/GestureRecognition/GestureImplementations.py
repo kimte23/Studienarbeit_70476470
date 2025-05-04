@@ -194,9 +194,9 @@ def gesture_switch_content(multi_hand_landmarks, multi_handedness):
         hand_landmark = multi_hand_landmarks[i]
         hand_side = get_hand_side(multi_handedness[i])
         if hand_side == 'left' and is_hand_raised(hand_landmark):
-            left_hand_open = are_fingers_extended(hand_landmark) and hand_landmark.landmark[HandLandmark.WRIST].y > 0.5
+            left_hand_open = are_fingers_extended(hand_landmark) 
         elif hand_side == 'right' and is_hand_raised(hand_landmark):
-            right_hand_open = are_fingers_extended(hand_landmark) and hand_landmark.landmark[HandLandmark.WRIST].y > 0.5
+            right_hand_open = are_fingers_extended(hand_landmark) 
 
 
     # Reset if both hands are open
