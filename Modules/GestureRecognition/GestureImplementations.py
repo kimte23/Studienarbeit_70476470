@@ -101,7 +101,7 @@ def gesture_ok(multi_hand_landmarks, *args):
 #                             Multi frame gestures                             #
 # ---------------------------------------------------------------------------- #
 class MultiFrameState:
-    def __init__(self, gesture_duration_threshold=2.0, max_dropout_frames=5):
+    def __init__(self, gesture_duration_threshold=1.5, max_dropout_frames=4):
         self.start_time = None
         self.gesture_active = False
         self.dropout_count = 0
